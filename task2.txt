@@ -1,0 +1,93 @@
+# -*- coding: utf-8 -*- 2017年6月销量前五柱状图
+plt.xlabel('商品名称')
+plt.ylabel('销量（件）')
+print(thing_order.index)
+label1 = thing_order.index
+plt.bar(range(len(thing_order)), thing_order,width = 0.35,label = label1)
+plt.xticks(range(5),label1,rotation=90)
+my_height=thing_order.values
+for i in range(len(my_height)):
+    plt.text(i, my_height[i], my_height[i], va='bottom', ha='center')
+plt.title("2017商品6月销量前5的柱状图")
+plt.tight_layout()
+plt.savefig('2017年6月销量前5的商品.png')
+plt.show()
+
+# -*- coding: utf-8 -*-  2017年1-12月交易总额折线图
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']='SimHei'
+plt.rcParams['axes.unicode_minus']=False
+list5=[]
+i=pd.to_datetime(['20170101','20170201','20170301','20170401','20170501','20170601','20170701','20170801','20170901','20171001','20171101','20171201'])
+c=pd.to_datetime(['20170201','20170301','20170401','20170501','20170601','20170701','20170801','20170901','20171001','20171101','20171201','20180101'])
+delta=pd.Timedelta(days=1)
+for a in i:
+    for b in c:
+        if(b>a+5*delta)and(b<a+35*delta):
+            d=b-delta
+    data111=T1A[(T1A['支付时间']>=pd.to_datetime(a))&(T1A['支付时间']<=pd.to_datetime(d.strftime('%Y-%m-%d %H:%M:%S')))]
+    list5.append(round(data111['实际金额'].sum(),2))
+print('售货机A 2017年1-12月交易总额',list5)
+x=list(range(1,13,1))
+print(x)
+plt.plot(x,list5,c='green')
+plt.title('2017年1-12月交易总额',fontsize=24)
+plt.xlabel('月份',fontsize=14)
+plt.ylabel('销售总额',fontsize=14)
+plt.show()
+#交易额月环比增长率 柱状图
+import numpy
+list2=[433.5,725.6,1722.4,3385.1,6327.7,1791.6,2217.4,4284.7,6141.5,5169.4,7519.6]
+list3=[1443.7,433.5,725.6,1722.4,3385.1,6327.7,1791.6,2217.4,4284.7,6141.5,5169.4]
+ss=np.array(list2)
+s=np.array(list3)
+zl=(ss-s)/s
+print(zl)
+# -*- coding: utf-8 -*-  
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']='SimHei'
+plt.rcParams['axes.unicode_minus']=False
+aa =[2,3,4,5,6,7,8,9,10,11,12]  
+plt.bar(aa,zl,color='rgb')  ##绘制图
+plt.xlabel('月份')
+plt.ylabel('环比增长率')
+plt.title('A交易额月环比增长率')
+plt.show()
+#每个售货机的毛利润l
+import pandas as pd
+file=open('E:\泰迪\附件2.csv')
+user2=pd.read_csv(file,encoding='utf-8')
+kw=pd.merge(user2,user,on='商品')    
+sfd=kw.loc[(kw['大类']=='饮料'),('实际金额','地点')]
+sff=kw.loc[(kw['大类']=='非饮料'),('实际金额','地点')]
+m=['A','B','C','D','E']
+l=[]
+for k in m:
+    ot=sfd.loc[(sfd['地点']==k),:]
+    kt=sff.loc[(sff['地点']==k),:]
+    kw['毛利润']=0.25*ot['实际金额']
+    kw['f毛利润']=0.20*kt['实际金额']
+    la=round(kw['毛利润'].sum()+kw['f毛利润'].sum(),2)
+    l.append(la)
+print(l)
+
+#绘制各售货机毛利润占比饼图
+import matplotlib.pyplot as plt 
+plt.rcParams['font.sans-serif'] = ['SimHei']    # 显示中文
+plt.figure(figsize=(6,6))
+label=['售货机A','售货机B','售货机C','售货机D','售货机E',]
+explode=[0.01,0.01,0.01,0.01,0.01]
+plt.title('2017年各售货机毛利润占比饼图')
+plt.pie(l,explode=explode,labels=label,autopct='%1.1f%%')
+plt.savefig('E:\泰迪\2017年各售货机毛利润占比饼图.png')
+plt.show()
+#绘制每月交易总额均值气泡图
+import pandas as pd
+import matplotlib.pyplot as plt
+data.head()
+#先定义气泡大小，rank函数将大小列进行大小分配，越大的值分配结果也越高，n为倍数，用来调节气泡的大小
+size=data['大小 '].rank()
+n=20
+#开始作图
+plt.scatter(dat['数量'],data['大小'],s=size*n,alpha=0.6)
+plt.show

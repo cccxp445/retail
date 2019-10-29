@@ -1,0 +1,59 @@
+import pandas as pd
+import numpy as np 
+file1=open('E:\泰迪\附件2.csv')
+user1=pd.read_csv(file1,encoding='utf-8')
+file2=open('E:\泰迪\附件2.csv')
+user2=pd.read_csv(file2,encoding='utf-8')
+kw=pd.merge(user2,user1,on='商品')
+kw_A=kw.loc[(kw['地点']=='A'),:]
+sfk=kw_A.loc[(kw_A['大类']=='饮料'),('实际金额','地点','商品')]
+sfk['订单量']=sfk['实际金额']/sfk['实际金额']
+data_3=pd.pivot_table(sfk[['订单量','商品']],index=sfk['商品'],aggfunc=np.sum)
+data_3.to_csv('C:/Users/Administrator.WQ-20171105FQFC/Desktop/data_3.csv',encoding='gbk')
+file3=open('C:/Users/Administrator.WQ-20171105FQFC/Desktop/data_3.csv')
+dk_A=pd.read_csv(file3,encoding='utf-8')
+print(np.percentile(dk_A['订单量'], (33.33,66.66), interpolation='midpoint'))
+
+u=[]
+for s in dk_A['订单量']:    
+    if s<7.5:
+        k='滞销'
+        u.append(k)
+    elif (s>=7.5)and(s<45.5):
+        k='正常'
+        u.append(k)
+    else:
+        k='畅销'
+        u.append(k)     
+dk_A['标签']=u
+dk_A['饮料类商品']=dk_A['商品']
+task3_1A=dk_A.loc[:,('饮料类商品','标签')]
+task3_1A.to_csv('E:\泰迪\task3_1A.csv',encoding='gbk')
+#生成自动售货机画像
+from wordcloud import WordCloud
+
+f = open(r'E:\泰迪\task3-2A.csv').read()
+
+wc1 = WordCloud(background_color="white",width=1000, height=860, margin=2,
+ 
+                     font_path='C:\Windows\Fonts\STZHONGS.TTF',max_words=60).generate(f)
+
+
+# width,height,margin可以设置图片属性
+
+# generate 可以对全部文本进行自动分词,但是对中文支持不好
+
+# 可以设置font_path参数来设置字体集
+
+#background_color参数为设置背景颜色,默认颜色为黑色
+
+
+import matplotlib.pyplot as plt
+
+plt.imshow(wordcloud)
+
+plt.axis("off")
+
+plt.show()
+
+wc1.to_file('D:/TDSX/wc1.jpg')  

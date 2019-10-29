@@ -1,0 +1,30 @@
+import pandas as pd
+from pandas import Series, DataFrame
+
+df=pd.read_csv('E:\泰迪\附件1.csv', encoding='gbk')
+print(df.shape)
+print(df.columns)
+d=df.loc[df['地点']=='D']
+d.to_csv('task1-1D.csv',encoding='gbk')
+
+b=df.loc[df['地点']=='B']
+b.to_csv('task1-1B.csv',encoding='gbk')
+
+a=df.loc[df['地点']=='A']
+a.to_csv('task1-1A.csv',encoding='gbk')
+
+c=df.loc[df['地点']=='C']
+c.to_csv('task1-1C.csv',encoding='gbk')
+
+e=df.loc[df['地点']=='E']
+e.to_csv('task1-1E.csv',encoding='gbk')
+##，每台售货机每月每单平均交易额与日均交易量
+i=pd.to_datetime(['20170101','20170201','20170301','20170401','20170501','20170601','20170701','20170801','20170901','20171001','20171101','20171201'])
+c=pd.to_datetime(['20170201','20170301','20170401','20170501','20170601','20170701','20170801','20170901','20171001','20171101','20171201','20180101'])
+delta=pd.Timedelta(days=1)
+for a in i:
+    for b in c:
+        if(b>a+5*delta)and(b<a+35*delta):
+            d=b-delta
+    print('每单交易额',round(data1['实际金额'].sum()/data1['订单号'].count(),2))
+    print('日均订单量',round(data1['订单号'].count()/((d-a).days+1),0))
